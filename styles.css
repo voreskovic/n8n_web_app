@@ -198,12 +198,69 @@ body {
 
 .chat-instruction {
     text-align: center;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
 }
 
 .chat-instruction p {
     font-size: 1rem;
     color: var(--color-gray-600);
+}
+
+/* ===================================
+   Chat Status Indicator
+   =================================== */
+
+.chat-status {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all var(--transition);
+}
+
+.status-disabled {
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-600);
+    border: 2px solid var(--color-gray-300);
+}
+
+.status-enabled {
+    background-color: var(--color-black);
+    color: var(--color-white);
+    border: 2px solid var(--color-black);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-disabled .status-dot {
+    background-color: var(--color-gray-400);
+}
+
+.status-enabled .status-dot {
+    background-color: var(--color-white);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
 }
 
 /* ===================================
@@ -234,6 +291,170 @@ body {
     --chat--spacing: 1rem;
     --chat--border-radius: 0.75rem;
     --chat--transition: 0.2s ease;
+}
+
+/* Override n8n chat widget styles */
+#n8n-chat,
+[data-n8n-chat],
+.n8n-chat {
+    font-family: var(--font-family) !important;
+}
+
+/* Chat messages container */
+#n8n-chat .chat-messages,
+#n8n-chat [class*="messages"],
+.n8n-chat .chat-messages,
+.n8n-chat [class*="messages"] {
+    padding: 1rem !important;
+    max-width: 100% !important;
+}
+
+/* All message bubbles - fix overflow and wrapping */
+#n8n-chat .message,
+#n8n-chat [class*="message"],
+.n8n-chat .message,
+.n8n-chat [class*="message"] {
+    max-width: 85% !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: pre-wrap !important;
+    margin-bottom: 0.75rem !important;
+}
+
+/* Bot/AI messages - white background, dark text */
+#n8n-chat .message.bot,
+#n8n-chat .message.assistant,
+#n8n-chat [class*="message"][class*="bot"],
+#n8n-chat [class*="message"][class*="assistant"],
+.n8n-chat .message.bot,
+.n8n-chat .message.assistant {
+    background-color: var(--color-gray-100) !important;
+    color: var(--color-black) !important;
+    border: 1px solid var(--color-gray-200) !important;
+    border-radius: 1rem !important;
+    border-bottom-left-radius: 0.25rem !important;
+    padding: 0.75rem 1rem !important;
+    max-width: 85% !important;
+}
+
+/* User messages - black background, white text */
+#n8n-chat .message.user,
+#n8n-chat [class*="message"][class*="user"],
+.n8n-chat .message.user {
+    background-color: var(--color-black) !important;
+    color: var(--color-white) !important;
+    border: 1px solid var(--color-black) !important;
+    border-radius: 1rem !important;
+    border-bottom-right-radius: 0.25rem !important;
+    padding: 0.75rem 1rem !important;
+    max-width: 85% !important;
+}
+
+/* Fix text inside message bubbles */
+#n8n-chat .message p,
+#n8n-chat .message span,
+#n8n-chat .message div,
+.n8n-chat .message p,
+.n8n-chat .message span,
+.n8n-chat .message div {
+    max-width: 100% !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: pre-wrap !important;
+    margin: 0 !important;
+    line-height: 1.5 !important;
+}
+
+/* Fix lists inside messages */
+#n8n-chat .message ul,
+#n8n-chat .message ol,
+.n8n-chat .message ul,
+.n8n-chat .message ol {
+    margin: 0.5rem 0 !important;
+    padding-left: 1.5rem !important;
+    max-width: 100% !important;
+}
+
+#n8n-chat .message li,
+.n8n-chat .message li {
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    margin-bottom: 0.25rem !important;
+}
+
+/* Chat input area */
+#n8n-chat input,
+#n8n-chat textarea,
+.n8n-chat input,
+.n8n-chat textarea {
+    font-family: var(--font-family) !important;
+    border: 2px solid var(--color-gray-300) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+#n8n-chat input:focus,
+#n8n-chat textarea:focus,
+.n8n-chat input:focus,
+.n8n-chat textarea:focus {
+    border-color: var(--color-black) !important;
+    outline: none !important;
+}
+
+/* Send button */
+#n8n-chat button[type="submit"],
+.n8n-chat button[type="submit"] {
+    background-color: var(--color-black) !important;
+    color: var(--color-white) !important;
+    border: none !important;
+    border-radius: var(--radius-md) !important;
+    transition: all var(--transition) !important;
+}
+
+#n8n-chat button[type="submit"]:hover,
+.n8n-chat button[type="submit"]:hover {
+    background-color: var(--color-gray-800) !important;
+}
+
+/* Chat header */
+#n8n-chat .chat-header,
+.n8n-chat .chat-header {
+    background-color: var(--color-black) !important;
+    color: var(--color-white) !important;
+    border-bottom: 2px solid var(--color-gray-800) !important;
+}
+
+/* Fix emoji and special characters */
+#n8n-chat .message img.emoji,
+.n8n-chat .message img.emoji {
+    display: inline-block !important;
+    height: 1.2em !important;
+    width: 1.2em !important;
+    vertical-align: text-bottom !important;
+}
+
+/* Scrollbar styling */
+#n8n-chat ::-webkit-scrollbar,
+.n8n-chat ::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+#n8n-chat ::-webkit-scrollbar-track,
+.n8n-chat ::-webkit-scrollbar-track {
+    background: var(--color-gray-100) !important;
+}
+
+#n8n-chat ::-webkit-scrollbar-thumb,
+.n8n-chat ::-webkit-scrollbar-thumb {
+    background: var(--color-gray-400) !important;
+    border-radius: 4px !important;
+}
+
+#n8n-chat ::-webkit-scrollbar-thumb:hover,
+.n8n-chat ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gray-500) !important;
 }
 
 /* ===================================
