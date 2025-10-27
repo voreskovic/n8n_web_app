@@ -1,4 +1,4 @@
-<!DOCTYPE html>
++<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -164,58 +164,6 @@
         } else {
             console.log('No cluster_id set. Chat will not be initialized.');
         }
-    </script>
-
-    <!-- Custom Script -->
-    <script src="script.js"></script>
-</body>
-</html>
-        };
-
-        // Initialize chat with metadata
-        window.n8nChat = createChat({
-            webhookUrl: 'https://vedran99.app.n8n.cloud/webhook/c8974033-324a-43f0-8503-a07b5128fd6c/chat',
-            showWelcomeScreen: true,
-            initialMessages: [
-                'Hello! 👋\n\nI\'m here to help you find information from the articles provided.\n\n📋 What I can do:\n• Answer questions based on article content\n• Provide direct, concise answers\n\n💡 How to ask questions:\n• Be specific about what you want to know\n• Ask about anything mentioned in the articles\n\n📌 Note: I can only discuss information from the provided articles. For questions outside this scope, I\'ll let you know.\n\nWhat would you like to know?'
-            ],
-            metadata: {
-                cluster_id: currentClusterId
-            },
-            i18n: {
-                en: {
-                    title: 'ReelNews AI Assistant',
-                    subtitle: 'Article Information Helper',
-                    footer: '',
-                    getStarted: 'Start Conversation',
-                    inputPlaceholder: 'Ask me about the articles...',
-                },
-            },
-        });
-
-        // Update cluster ID button handler
-        document.getElementById('update-cluster-btn').addEventListener('click', () => {
-            const input = document.getElementById('cluster-id-input');
-            const newClusterId = input.value.trim();
-
-            if (newClusterId) {
-                currentClusterId = newClusterId;
-                localStorage.setItem('cluster_id', newClusterId);
-
-                // Update metadata in chat
-                if (window.n8nChat && window.n8nChat.updateMetadata) {
-                    window.n8nChat.updateMetadata({ cluster_id: newClusterId });
-                }
-
-                updateClusterDisplay();
-                alert('Cluster ID updated successfully!');
-            } else {
-                alert('Please enter a valid cluster ID');
-            }
-        });
-
-        // Initialize display on page load
-        updateClusterDisplay();
     </script>
 
     <!-- Custom Script -->
