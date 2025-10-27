@@ -309,12 +309,44 @@ body {
     max-width: 100% !important;
 }
 
+/* Message wrapper/container */
+#n8n-chat .message-wrapper,
+#n8n-chat [class*="message-wrapper"],
+#n8n-chat [class*="message-container"],
+.n8n-chat .message-wrapper,
+.n8n-chat [class*="message-wrapper"],
+.n8n-chat [class*="message-container"] {
+    display: flex !important;
+    width: 100% !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* Align bot messages to left */
+#n8n-chat .message-wrapper.bot,
+#n8n-chat .message-wrapper.assistant,
+#n8n-chat [class*="message-wrapper"][class*="bot"],
+#n8n-chat [class*="message-wrapper"][class*="assistant"],
+.n8n-chat .message-wrapper.bot,
+.n8n-chat .message-wrapper.assistant {
+    justify-content: flex-start !important;
+}
+
+/* Align user messages to right */
+#n8n-chat .message-wrapper.user,
+#n8n-chat [class*="message-wrapper"][class*="user"],
+.n8n-chat .message-wrapper.user {
+    justify-content: flex-end !important;
+}
+
 /* All message bubbles - fix overflow and wrapping */
 #n8n-chat .message,
 #n8n-chat [class*="message"],
 .n8n-chat .message,
 .n8n-chat [class*="message"] {
+    min-width: 80px !important;
     max-width: 85% !important;
+    width: auto !important;
+    display: inline-block !important;
     word-wrap: break-word !important;
     word-break: break-word !important;
     overflow-wrap: break-word !important;
@@ -334,8 +366,11 @@ body {
     border: 1px solid var(--color-gray-200) !important;
     border-radius: 1rem !important;
     border-bottom-left-radius: 0.25rem !important;
-    padding: 0.75rem 1rem !important;
+    padding: 1rem 1.25rem !important;
+    min-width: 80px !important;
     max-width: 85% !important;
+    width: auto !important;
+    display: inline-block !important;
 }
 
 /* User messages - black background, white text */
@@ -347,8 +382,11 @@ body {
     border: 1px solid var(--color-black) !important;
     border-radius: 1rem !important;
     border-bottom-right-radius: 0.25rem !important;
-    padding: 0.75rem 1rem !important;
+    padding: 0.875rem 1.25rem !important;
+    min-width: 80px !important;
     max-width: 85% !important;
+    width: auto !important;
+    display: inline-block !important;
 }
 
 /* Fix text inside message bubbles */
@@ -372,9 +410,11 @@ body {
 #n8n-chat .message ol,
 .n8n-chat .message ul,
 .n8n-chat .message ol {
-    margin: 0.5rem 0 !important;
-    padding-left: 1.5rem !important;
-    max-width: 100% !important;
+    margin: 0.5rem 0 0.5rem 0 !important;
+    padding-left: 1.75rem !important;
+    padding-right: 0.5rem !important;
+    max-width: calc(100% - 0.5rem) !important;
+    list-style-position: outside !important;
 }
 
 #n8n-chat .message li,
@@ -382,7 +422,29 @@ body {
     word-wrap: break-word !important;
     word-break: break-word !important;
     overflow-wrap: break-word !important;
-    margin-bottom: 0.25rem !important;
+    margin-bottom: 0.375rem !important;
+    padding-left: 0.25rem !important;
+    line-height: 1.6 !important;
+}
+
+/* Ensure list items don't touch bubble edges */
+#n8n-chat .message.bot ul,
+#n8n-chat .message.bot ol,
+#n8n-chat .message.assistant ul,
+#n8n-chat .message.assistant ol,
+.n8n-chat .message.bot ul,
+.n8n-chat .message.bot ol,
+.n8n-chat .message.assistant ul,
+.n8n-chat .message.assistant ol {
+    margin-left: 0.25rem !important;
+}
+
+/* Add extra space for messages containing lists */
+#n8n-chat .message:has(ul),
+#n8n-chat .message:has(ol),
+.n8n-chat .message:has(ul),
+.n8n-chat .message:has(ol) {
+    padding-right: 1.5rem !important;
 }
 
 /* Chat input area */
@@ -481,6 +543,26 @@ body {
     .main-container {
         padding: var(--spacing-sm);
     }
+
+    /* Adjust chat bubbles for mobile */
+    #n8n-chat .message,
+    #n8n-chat [class*="message"],
+    .n8n-chat .message,
+    .n8n-chat [class*="message"] {
+        max-width: 90% !important;
+    }
+
+    #n8n-chat .message.bot,
+    #n8n-chat .message.assistant,
+    .n8n-chat .message.bot,
+    .n8n-chat .message.assistant {
+        padding: 0.875rem 1rem !important;
+    }
+
+    #n8n-chat .message.user,
+    .n8n-chat .message.user {
+        padding: 0.75rem 1rem !important;
+    }
 }
 
 @media (max-width: 480px) {
@@ -490,6 +572,21 @@ body {
 
     .cluster-section {
         padding: var(--spacing-sm);
+    }
+
+    /* Further adjust chat bubbles for small screens */
+    #n8n-chat .message,
+    #n8n-chat [class*="message"],
+    .n8n-chat .message,
+    .n8n-chat [class*="message"] {
+        max-width: 95% !important;
+    }
+
+    #n8n-chat .message ul,
+    #n8n-chat .message ol,
+    .n8n-chat .message ul,
+    .n8n-chat .message ol {
+        padding-left: 1.5rem !important;
     }
 }
 
