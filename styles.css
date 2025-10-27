@@ -455,6 +455,8 @@ body {
     font-family: var(--font-family) !important;
     border: 2px solid var(--color-gray-300) !important;
     border-radius: var(--radius-md) !important;
+    overflow: hidden !important;
+    resize: none !important;
 }
 
 #n8n-chat input:focus,
@@ -463,6 +465,34 @@ body {
 .n8n-chat textarea:focus {
     border-color: var(--color-black) !important;
     outline: none !important;
+    overflow: hidden !important;
+}
+
+/* Fix input placeholder and text */
+#n8n-chat input::placeholder,
+#n8n-chat textarea::placeholder,
+.n8n-chat input::placeholder,
+.n8n-chat textarea::placeholder {
+    color: var(--color-gray-400) !important;
+    overflow: hidden !important;
+}
+
+/* Hide scrollbar in input field */
+#n8n-chat input::-webkit-scrollbar,
+#n8n-chat textarea::-webkit-scrollbar,
+.n8n-chat input::-webkit-scrollbar,
+.n8n-chat textarea::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+#n8n-chat input,
+#n8n-chat textarea,
+.n8n-chat input,
+.n8n-chat textarea {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
 }
 
 /* Send button */
@@ -497,25 +527,106 @@ body {
     vertical-align: text-bottom !important;
 }
 
-/* Scrollbar styling */
-#n8n-chat ::-webkit-scrollbar,
-.n8n-chat ::-webkit-scrollbar {
+/* Loading dots / typing indicator */
+#n8n-chat .loading,
+#n8n-chat .typing,
+#n8n-chat [class*="loading"],
+#n8n-chat [class*="typing"],
+#n8n-chat [class*="dots"],
+.n8n-chat .loading,
+.n8n-chat .typing,
+.n8n-chat [class*="loading"],
+.n8n-chat [class*="typing"],
+.n8n-chat [class*="dots"] {
+    max-width: 60px !important;
+    padding: 0.75rem 1rem !important;
+    background-color: var(--color-gray-100) !important;
+    border: 1px solid var(--color-gray-200) !important;
+    border-radius: 1rem !important;
+    border-bottom-left-radius: 0.25rem !important;
+}
+
+/* Loading dot elements */
+#n8n-chat .loading span,
+#n8n-chat .typing span,
+#n8n-chat [class*="loading"] span,
+#n8n-chat [class*="typing"] span,
+#n8n-chat [class*="dots"] span,
+.n8n-chat .loading span,
+.n8n-chat .typing span,
+.n8n-chat [class*="loading"] span,
+.n8n-chat [class*="typing"] span,
+.n8n-chat [class*="dots"] span {
+    width: 8px !important;
+    height: 8px !important;
+    max-width: 8px !important;
+    max-height: 8px !important;
+    min-width: 8px !important;
+    min-height: 8px !important;
+    border-radius: 50% !important;
+    background-color: var(--color-gray-500) !important;
+    display: inline-block !important;
+    margin: 0 2px !important;
+    animation: loadingDots 1.4s infinite ease-in-out both !important;
+}
+
+#n8n-chat .loading span:nth-child(1),
+#n8n-chat .typing span:nth-child(1),
+.n8n-chat .loading span:nth-child(1),
+.n8n-chat .typing span:nth-child(1) {
+    animation-delay: -0.32s !important;
+}
+
+#n8n-chat .loading span:nth-child(2),
+#n8n-chat .typing span:nth-child(2),
+.n8n-chat .loading span:nth-child(2),
+.n8n-chat .typing span:nth-child(2) {
+    animation-delay: -0.16s !important;
+}
+
+@keyframes loadingDots {
+    0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Fix for any oversized elements in loading state */
+#n8n-chat .loading *,
+#n8n-chat .typing *,
+#n8n-chat [class*="loading"] *,
+#n8n-chat [class*="typing"] *,
+.n8n-chat .loading *,
+.n8n-chat .typing *,
+.n8n-chat [class*="loading"] *,
+.n8n-chat [class*="typing"] * {
+    max-width: 8px !important;
+    max-height: 8px !important;
+}
+
+/* Scrollbar styling (exclude input/textarea) */
+#n8n-chat :not(input):not(textarea)::-webkit-scrollbar,
+.n8n-chat :not(input):not(textarea)::-webkit-scrollbar {
     width: 8px !important;
 }
 
-#n8n-chat ::-webkit-scrollbar-track,
-.n8n-chat ::-webkit-scrollbar-track {
+#n8n-chat :not(input):not(textarea)::-webkit-scrollbar-track,
+.n8n-chat :not(input):not(textarea)::-webkit-scrollbar-track {
     background: var(--color-gray-100) !important;
 }
 
-#n8n-chat ::-webkit-scrollbar-thumb,
-.n8n-chat ::-webkit-scrollbar-thumb {
+#n8n-chat :not(input):not(textarea)::-webkit-scrollbar-thumb,
+.n8n-chat :not(input):not(textarea)::-webkit-scrollbar-thumb {
     background: var(--color-gray-400) !important;
     border-radius: 4px !important;
 }
 
-#n8n-chat ::-webkit-scrollbar-thumb:hover,
-.n8n-chat ::-webkit-scrollbar-thumb:hover {
+#n8n-chat :not(input):not(textarea)::-webkit-scrollbar-thumb:hover,
+.n8n-chat :not(input):not(textarea)::-webkit-scrollbar-thumb:hover {
     background: var(--color-gray-500) !important;
 }
 
