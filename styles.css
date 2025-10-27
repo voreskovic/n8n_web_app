@@ -309,32 +309,33 @@ body {
     max-width: 100% !important;
 }
 
-/* Message wrapper/container */
-#n8n-chat .message-wrapper,
-#n8n-chat [class*="message-wrapper"],
-#n8n-chat [class*="message-container"],
-.n8n-chat .message-wrapper,
-.n8n-chat [class*="message-wrapper"],
-.n8n-chat [class*="message-container"] {
+/* Message wrapper/container - critical for alignment */
+#n8n-chat > div > div,
+#n8n-chat [class*="messages"] > div,
+.n8n-chat > div > div,
+.n8n-chat [class*="messages"] > div {
     display: flex !important;
     width: 100% !important;
     margin-bottom: 0.5rem !important;
 }
 
-/* Align bot messages to left */
-#n8n-chat .message-wrapper.bot,
-#n8n-chat .message-wrapper.assistant,
-#n8n-chat [class*="message-wrapper"][class*="bot"],
-#n8n-chat [class*="message-wrapper"][class*="assistant"],
-.n8n-chat .message-wrapper.bot,
-.n8n-chat .message-wrapper.assistant {
+/* Default - all message containers flex to start */
+#n8n-chat > div > div,
+#n8n-chat [class*="messages"] > div,
+.n8n-chat > div > div,
+.n8n-chat [class*="messages"] > div {
     justify-content: flex-start !important;
 }
 
-/* Align user messages to right */
-#n8n-chat .message-wrapper.user,
-#n8n-chat [class*="message-wrapper"][class*="user"],
-.n8n-chat .message-wrapper.user {
+/* User message containers align to RIGHT */
+#n8n-chat > div > div:has(.message.user),
+#n8n-chat > div > div:has([class*="user"]),
+#n8n-chat [class*="messages"] > div:has(.message.user),
+#n8n-chat [class*="messages"] > div:has([class*="user"]),
+.n8n-chat > div > div:has(.message.user),
+.n8n-chat > div > div:has([class*="user"]),
+.n8n-chat [class*="messages"] > div:has(.message.user),
+.n8n-chat [class*="messages"] > div:has([class*="user"]) {
     justify-content: flex-end !important;
 }
 
@@ -343,18 +344,18 @@ body {
 #n8n-chat [class*="message"],
 .n8n-chat .message,
 .n8n-chat [class*="message"] {
-    min-width: 80px !important;
-    max-width: 85% !important;
-    width: auto !important;
+    min-width: 60px !important;
+    max-width: 75% !important;
+    width: fit-content !important;
     display: inline-block !important;
     word-wrap: break-word !important;
     word-break: break-word !important;
     overflow-wrap: break-word !important;
     white-space: pre-wrap !important;
-    margin-bottom: 0.75rem !important;
+    margin-bottom: 0 !important;
 }
 
-/* Bot/AI messages - white background, dark text */
+/* Bot/AI messages - LEFT side, gray background */
 #n8n-chat .message.bot,
 #n8n-chat .message.assistant,
 #n8n-chat [class*="message"][class*="bot"],
@@ -364,29 +365,32 @@ body {
     background-color: var(--color-gray-100) !important;
     color: var(--color-black) !important;
     border: 1px solid var(--color-gray-200) !important;
-    border-radius: 1rem !important;
+    border-radius: 0.875rem !important;
     border-bottom-left-radius: 0.25rem !important;
-    padding: 1rem 1.25rem !important;
-    min-width: 80px !important;
-    max-width: 85% !important;
-    width: auto !important;
+    padding: 0.625rem 0.875rem !important;
+    min-width: 60px !important;
+    max-width: 75% !important;
+    width: fit-content !important;
     display: inline-block !important;
+    align-self: flex-start !important;
 }
 
-/* User messages - black background, white text */
+/* User messages - RIGHT side, black background */
 #n8n-chat .message.user,
 #n8n-chat [class*="message"][class*="user"],
 .n8n-chat .message.user {
     background-color: var(--color-black) !important;
     color: var(--color-white) !important;
     border: 1px solid var(--color-black) !important;
-    border-radius: 1rem !important;
+    border-radius: 0.875rem !important;
     border-bottom-right-radius: 0.25rem !important;
-    padding: 0.875rem 1.25rem !important;
-    min-width: 80px !important;
-    max-width: 85% !important;
-    width: auto !important;
+    padding: 0.625rem 0.875rem !important;
+    min-width: 60px !important;
+    max-width: 75% !important;
+    width: fit-content !important;
     display: inline-block !important;
+    align-self: flex-end !important;
+    margin-left: auto !important;
 }
 
 /* Fix text inside message bubbles */
@@ -410,10 +414,10 @@ body {
 #n8n-chat .message ol,
 .n8n-chat .message ul,
 .n8n-chat .message ol {
-    margin: 0.5rem 0 0.5rem 0 !important;
-    padding-left: 1.75rem !important;
-    padding-right: 0.5rem !important;
-    max-width: calc(100% - 0.5rem) !important;
+    margin: 0.375rem 0 0.375rem 0 !important;
+    padding-left: 1.5rem !important;
+    padding-right: 0.25rem !important;
+    max-width: 100% !important;
     list-style-position: outside !important;
 }
 
@@ -422,29 +426,28 @@ body {
     word-wrap: break-word !important;
     word-break: break-word !important;
     overflow-wrap: break-word !important;
-    margin-bottom: 0.375rem !important;
-    padding-left: 0.25rem !important;
-    line-height: 1.6 !important;
+    margin-bottom: 0.25rem !important;
+    padding-left: 0.125rem !important;
+    line-height: 1.5 !important;
 }
 
-/* Ensure list items don't touch bubble edges */
-#n8n-chat .message.bot ul,
-#n8n-chat .message.bot ol,
-#n8n-chat .message.assistant ul,
-#n8n-chat .message.assistant ol,
-.n8n-chat .message.bot ul,
-.n8n-chat .message.bot ol,
-.n8n-chat .message.assistant ul,
-.n8n-chat .message.assistant ol {
-    margin-left: 0.25rem !important;
+/* Add extra padding for messages containing lists */
+#n8n-chat .message.bot:has(ul),
+#n8n-chat .message.bot:has(ol),
+#n8n-chat .message.assistant:has(ul),
+#n8n-chat .message.assistant:has(ol),
+.n8n-chat .message.bot:has(ul),
+.n8n-chat .message.bot:has(ol),
+.n8n-chat .message.assistant:has(ul),
+.n8n-chat .message.assistant:has(ol) {
+    padding: 0.625rem 1rem 0.625rem 0.875rem !important;
 }
 
-/* Add extra space for messages containing lists */
-#n8n-chat .message:has(ul),
-#n8n-chat .message:has(ol),
-.n8n-chat .message:has(ul),
-.n8n-chat .message:has(ol) {
-    padding-right: 1.5rem !important;
+#n8n-chat .message.user:has(ul),
+#n8n-chat .message.user:has(ol),
+.n8n-chat .message.user:has(ul),
+.n8n-chat .message.user:has(ol) {
+    padding: 0.625rem 1rem 0.625rem 0.875rem !important;
 }
 
 /* Chat input area */
@@ -538,12 +541,14 @@ body {
 .n8n-chat [class*="loading"],
 .n8n-chat [class*="typing"],
 .n8n-chat [class*="dots"] {
-    max-width: 60px !important;
-    padding: 0.75rem 1rem !important;
+    max-width: 55px !important;
+    width: fit-content !important;
+    padding: 0.625rem 0.875rem !important;
     background-color: var(--color-gray-100) !important;
     border: 1px solid var(--color-gray-200) !important;
-    border-radius: 1rem !important;
+    border-radius: 0.875rem !important;
     border-bottom-left-radius: 0.25rem !important;
+    align-self: flex-start !important;
 }
 
 /* Loading dot elements */
@@ -660,19 +665,19 @@ body {
     #n8n-chat [class*="message"],
     .n8n-chat .message,
     .n8n-chat [class*="message"] {
-        max-width: 90% !important;
+        max-width: 85% !important;
     }
 
     #n8n-chat .message.bot,
     #n8n-chat .message.assistant,
     .n8n-chat .message.bot,
     .n8n-chat .message.assistant {
-        padding: 0.875rem 1rem !important;
+        padding: 0.5rem 0.75rem !important;
     }
 
     #n8n-chat .message.user,
     .n8n-chat .message.user {
-        padding: 0.75rem 1rem !important;
+        padding: 0.5rem 0.75rem !important;
     }
 }
 
@@ -690,14 +695,26 @@ body {
     #n8n-chat [class*="message"],
     .n8n-chat .message,
     .n8n-chat [class*="message"] {
-        max-width: 95% !important;
+        max-width: 90% !important;
+    }
+
+    #n8n-chat .message.bot,
+    #n8n-chat .message.assistant,
+    .n8n-chat .message.bot,
+    .n8n-chat .message.assistant {
+        padding: 0.5rem 0.625rem !important;
+    }
+
+    #n8n-chat .message.user,
+    .n8n-chat .message.user {
+        padding: 0.5rem 0.625rem !important;
     }
 
     #n8n-chat .message ul,
     #n8n-chat .message ol,
     .n8n-chat .message ul,
     .n8n-chat .message ol {
-        padding-left: 1.5rem !important;
+        padding-left: 1.25rem !important;
     }
 }
 
