@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ReelNews AI ChatBot - Article Information Helper">
+    <meta name="description" content="ReelNews AI Assistant - Article Information Helper">
     <title>ReelNews AI Assistant</title>
 
     <!-- n8n Chat Widget CSS -->
@@ -15,103 +15,88 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Main Container -->
-    <div class="main-container">
-        <div class="header-section">
-            <h1 class="main-title">ReelNews AI Assistant</h1>
-            <p class="main-subtitle">Article Information Helper</p>
-        </div>
+    <div class="container">
+        <header class="header">
+            <h1>ReelNews AI Assistant</h1>
+            <p class="subtitle">Article Information Helper</p>
+        </header>
 
-        <!-- Cluster ID Input Section -->
-        <div class="cluster-section">
-            <label for="cluster-id-input" class="cluster-label">Cluster ID</label>
-            <div class="cluster-input-group">
-                <input
-                    type="text"
-                    id="cluster-id-input"
-                    class="cluster-input"
-                    placeholder="Enter your cluster ID"
-                    value="">
-                <button id="update-cluster-btn" class="cluster-btn">Update</button>
+        <main class="main-content">
+            <div class="cluster-box">
+                <label for="cluster-id">CLUSTER ID</label>
+                <div class="input-group">
+                    <input
+                        type="text"
+                        id="cluster-id"
+                        placeholder="Enter your cluster ID"
+                        autocomplete="off">
+                    <button id="update-btn">Update</button>
+                </div>
+                <p class="cluster-status">
+                    Your current cluster ID: <span id="current-id">Not set</span>
+                </p>
             </div>
-            <p class="cluster-hint">Your current cluster ID: <span id="current-cluster">Not set</span></p>
-        </div>
 
-        <div class="chat-instruction" id="chat-instruction">
-            <p id="instruction-text">Please set a Cluster ID above to activate the chatbot</p>
-        </div>
-
-        <!-- Chat status indicator -->
-        <div class="chat-status" id="chat-status">
-            <div class="status-indicator status-disabled">
-                <span class="status-dot"></span>
-                <span class="status-text">Chatbot Disabled</span>
+            <div class="instructions">
+                <p id="instruction-message">Please set a Cluster ID above to activate the chatbot</p>
             </div>
-        </div>
+
+            <div class="status-badge">
+                <div id="status-indicator" class="status disabled">
+                    <span class="dot"></span>
+                    <span id="status-text">Chatbot Disabled</span>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Powered by n8n</p>
+        </footer>
     </div>
-
-    <!-- Footer -->
-    <footer class="minimal-footer">
-        <p>Powered by n8n</p>
-    </footer>
 
     <!-- n8n Chat Widget Script -->
     <script type="module">
         import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/chat.bundle.es.js';
 
-        // Get cluster_id from URL parameter or localStorage
+        let clusterId = localStorage.getItem('cluster_id') || '';
         const urlParams = new URLSearchParams(window.location.search);
         const urlClusterId = urlParams.get('cluster_id');
 
-        // Store in localStorage if provided in URL
         if (urlClusterId) {
-            localStorage.setItem('cluster_id', urlClusterId);
+            clusterId = urlClusterId;
+            localStorage.setItem('cluster_id', clusterId);
         }
 
-        // Get current cluster_id
-        let currentClusterId = localStorage.getItem('cluster_id') || '';
         let chatInstance = null;
 
-        // Update UI
-        const updateClusterDisplay = () => {
-            const displayElement = document.getElementById('current-cluster');
-            const inputElement = document.getElementById('cluster-id-input');
-            const statusIndicator = document.querySelector('.status-indicator');
-            const statusText = document.querySelector('.status-text');
-            const instructionText = document.getElementById('instruction-text');
+        function updateUI() {
+            const currentIdEl = document.getElementById('current-id');
+            const inputEl = document.getElementById('cluster-id');
+            const statusEl = document.getElementById('status-indicator');
+            const statusTextEl = document.getElementById('status-text');
+            const instructionEl = document.getElementById('instruction-message');
 
-            if (currentClusterId) {
-                displayElement.textContent = currentClusterId;
-                inputElement.value = currentClusterId;
-
-                // Update status to enabled
-                statusIndicator.classList.remove('status-disabled');
-                statusIndicator.classList.add('status-enabled');
-                statusText.textContent = 'Chatbot Active';
-                instructionText.textContent = 'Click the chat button below to start asking questions';
+            if (clusterId) {
+                currentIdEl.textContent = clusterId;
+                inputEl.value = clusterId;
+                statusEl.classList.remove('disabled');
+                statusEl.classList.add('active');
+                statusTextEl.textContent = 'Chatbot Active';
+                instructionEl.textContent = 'Click the chat button below to start asking questions';
             } else {
-                displayElement.textContent = 'Not set';
-
-                // Update status to disabled
-                statusIndicator.classList.remove('status-enabled');
-                statusIndicator.classList.add('status-disabled');
-                statusText.textContent = 'Chatbot Disabled';
-                instructionText.textContent = 'Please set a Cluster ID above to activate the chatbot';
+                currentIdEl.textContent = 'Not set';
+                statusEl.classList.remove('active');
+                statusEl.classList.add('disabled');
+                statusTextEl.textContent = 'Chatbot Disabled';
+                instructionEl.textContent = 'Please set a Cluster ID above to activate the chatbot';
             }
-        };
+        }
 
-        // Initialize chat with metadata
-        const initializeChat = (clusterId) => {
-            // Destroy existing chat instance if it exists
-            if (chatInstance) {
-                console.log('Destroying existing chat instance');
-                // The n8n chat widget doesn't have a destroy method, so we'll just reinitialize
-            }
-
-            console.log('Initializing chat with cluster_id:', clusterId);
+        function initChat(id) {
+            if (!id) return;
 
             chatInstance = createChat({
                 webhookUrl: 'https://vedran99.app.n8n.cloud/webhook/c8974033-324a-43f0-8503-a07b5128fd6c/chat',
@@ -119,9 +104,7 @@
                 initialMessages: [
                     'Hello! 👋\n\nI\'m here to help you find information from the articles provided.\n\n📋 What I can do:\n• Answer questions based on article content\n• Provide direct, concise answers\n\n💡 How to ask questions:\n• Be specific about what you want to know\n• Ask about anything mentioned in the articles\n\n📌 Note: I can only discuss information from the provided articles. For questions outside this scope, I\'ll let you know.\n\nWhat would you like to know?'
                 ],
-                metadata: {
-                    cluster_id: clusterId
-                },
+                metadata: { cluster_id: id },
                 i18n: {
                     en: {
                         title: 'ReelNews AI Assistant',
@@ -134,39 +117,27 @@
             });
 
             window.n8nChat = chatInstance;
-            console.log('Chat initialized successfully with metadata:', { cluster_id: clusterId });
-        };
+        }
 
-        // Update cluster ID button handler
-        document.getElementById('update-cluster-btn').addEventListener('click', () => {
-            const input = document.getElementById('cluster-id-input');
-            const newClusterId = input.value.trim();
+        document.getElementById('update-btn').addEventListener('click', () => {
+            const input = document.getElementById('cluster-id');
+            const newId = input.value.trim();
 
-            if (newClusterId) {
-                currentClusterId = newClusterId;
-                localStorage.setItem('cluster_id', newClusterId);
-
-                // Initialize or reinitialize chat with new cluster_id
-                initializeChat(newClusterId);
-
-                updateClusterDisplay();
-                alert('Cluster ID set successfully! You can now use the chatbot.');
+            if (newId) {
+                clusterId = newId;
+                localStorage.setItem('cluster_id', newId);
+                initChat(newId);
+                updateUI();
+                alert('Cluster ID set successfully!');
             } else {
                 alert('Please enter a valid cluster ID');
             }
         });
 
-        // Initialize display and chat on page load if cluster_id exists
-        updateClusterDisplay();
-
-        if (currentClusterId) {
-            initializeChat(currentClusterId);
-        } else {
-            console.log('No cluster_id set. Chat will not be initialized.');
+        updateUI();
+        if (clusterId) {
+            initChat(clusterId);
         }
     </script>
-
-    <!-- Custom Script -->
-    <script src="script.js"></script>
 </body>
 </html>
