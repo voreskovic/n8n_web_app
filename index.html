@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ReelNews AI ChatBot - Get instant answers and assistance">
-    <title>ReelNews AI ChatBot</title>
+    <meta name="description" content="ReelNews AI ChatBot - Article Information Helper">
+    <title>ReelNews AI Assistant</title>
 
     <!-- n8n Chat Widget CSS -->
     <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/style.css" rel="stylesheet" />
@@ -18,145 +18,77 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header Section -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">
-                <h1>ReelNews AI</h1>
-            </div>
-            <nav class="nav">
-                <a href="#home" class="nav-link">Home</a>
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#about" class="nav-link">About</a>
-            </nav>
+    <!-- Main Container -->
+    <div class="main-container">
+        <div class="header-section">
+            <h1 class="main-title">ReelNews AI Assistant</h1>
+            <p class="main-subtitle">Article Information Helper</p>
         </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h2 class="hero-title">Welcome to ReelNews AI ChatBot</h2>
-                <p class="hero-subtitle">Your intelligent assistant, ready to help 24/7</p>
-                <p class="hero-description">
-                    Get instant answers, personalized recommendations, and seamless assistance
-                    through our AI-powered chat interface. Click the chat button below to start a conversation.
-                </p>
-                <div class="cta-buttons">
-                    <button class="btn btn-primary" onclick="openChat()">Start Chatting</button>
-                    <a href="#features" class="btn btn-secondary">Learn More</a>
-                </div>
+        <!-- Cluster ID Input Section -->
+        <div class="cluster-section">
+            <label for="cluster-id-input" class="cluster-label">Cluster ID</label>
+            <div class="cluster-input-group">
+                <input
+                    type="text"
+                    id="cluster-id-input"
+                    class="cluster-input"
+                    placeholder="Enter your cluster ID"
+                    value="">
+                <button id="update-cluster-btn" class="cluster-btn">Update</button>
             </div>
-            <div class="hero-image">
-                <div class="chat-preview">
-                    <div class="chat-preview-header">
-                        <div class="chat-preview-dots">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </div>
-                    <div class="chat-preview-body">
-                        <div class="preview-message bot">
-                            <div class="message-bubble">Hello! How can I assist you today?</div>
-                        </div>
-                        <div class="preview-message user">
-                            <div class="message-bubble">I need help with...</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <p class="cluster-hint">Your current cluster ID: <span id="current-cluster">Not set</span></p>
         </div>
-    </section>
 
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">Why Choose Our ChatBot?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🤖</div>
-                    <h3>AI-Powered</h3>
-                    <p>Advanced artificial intelligence provides accurate and helpful responses to your queries.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Instant Responses</h3>
-                    <p>Get immediate answers without waiting. Our bot is always ready to assist you.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3>Secure & Private</h3>
-                    <p>Your conversations are secure and private. We respect your data and privacy.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🌐</div>
-                    <h3>24/7 Available</h3>
-                    <p>Access assistance anytime, anywhere. Our chatbot never sleeps.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💡</div>
-                    <h3>Smart Learning</h3>
-                    <p>Our bot learns and improves with every interaction to serve you better.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Personalized</h3>
-                    <p>Tailored responses based on your needs and conversation context.</p>
-                </div>
-            </div>
+        <div class="chat-instruction">
+            <p>Click the chat button below to start asking questions about articles</p>
         </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">About ReelNews AI</h2>
-            <div class="about-content">
-                <p>
-                    ReelNews AI ChatBot is powered by cutting-edge natural language processing technology.
-                    Built with n8n workflow automation, our chatbot delivers seamless, intelligent conversations
-                    to help you achieve your goals faster.
-                </p>
-                <p>
-                    Whether you need information, support, or just want to explore what AI can do,
-                    our chatbot is here to provide a friendly and efficient experience.
-                </p>
-            </div>
-        </div>
-    </section>
+    </div>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 ReelNews AI. All rights reserved.</p>
-            <p class="footer-powered">Powered by n8n</p>
-        </div>
+    <footer class="minimal-footer">
+        <p>Powered by n8n</p>
     </footer>
 
     <!-- n8n Chat Widget Script -->
     <script type="module">
         import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/chat.bundle.es.js';
 
+        // Get cluster_id from URL parameter or localStorage
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlClusterId = urlParams.get('cluster_id');
+
+        // Store in localStorage if provided in URL
+        if (urlClusterId) {
+            localStorage.setItem('cluster_id', urlClusterId);
+        }
+
+        // Get current cluster_id
+        let currentClusterId = localStorage.getItem('cluster_id') || '';
+
+        // Update UI
+        const updateClusterDisplay = () => {
+            const displayElement = document.getElementById('current-cluster');
+            const inputElement = document.getElementById('cluster-id-input');
+
+            if (currentClusterId) {
+                displayElement.textContent = currentClusterId;
+                inputElement.value = currentClusterId;
+            } else {
+                displayElement.textContent = 'Not set';
+            }
+        };
+
+        // Initialize chat with metadata
         window.n8nChat = createChat({
             webhookUrl: 'https://vedran99.app.n8n.cloud/webhook/c8974033-324a-43f0-8503-a07b5128fd6c/chat',
             showWelcomeScreen: true,
             initialMessages: [
-                'Hello! 👋',
-                'I\'m here to help you find information from the articles provided.',
-                '',
-                '📋 What I can do:',
-                '• Answer questions based on article content',
-                '• Provide direct, concise answers',
-                '',
-                '💡 How to ask questions:',
-                '• Be specific about what you want to know',
-                '• Ask about anything mentioned in the articles',
-                '',
-                '📌 Note: I can only discuss information from the provided articles. For questions outside this scope, I\'ll let you know.',
-                '',
-                'What would you like to know?'
+                'Hello! 👋\n\nI\'m here to help you find information from the articles provided.\n\n📋 What I can do:\n• Answer questions based on article content\n• Provide direct, concise answers\n\n💡 How to ask questions:\n• Be specific about what you want to know\n• Ask about anything mentioned in the articles\n\n📌 Note: I can only discuss information from the provided articles. For questions outside this scope, I\'ll let you know.\n\nWhat would you like to know?'
             ],
+            metadata: {
+                cluster_id: currentClusterId
+            },
             i18n: {
                 en: {
                     title: 'ReelNews AI Assistant',
@@ -167,6 +99,30 @@
                 },
             },
         });
+
+        // Update cluster ID button handler
+        document.getElementById('update-cluster-btn').addEventListener('click', () => {
+            const input = document.getElementById('cluster-id-input');
+            const newClusterId = input.value.trim();
+
+            if (newClusterId) {
+                currentClusterId = newClusterId;
+                localStorage.setItem('cluster_id', newClusterId);
+
+                // Update metadata in chat
+                if (window.n8nChat && window.n8nChat.updateMetadata) {
+                    window.n8nChat.updateMetadata({ cluster_id: newClusterId });
+                }
+
+                updateClusterDisplay();
+                alert('Cluster ID updated successfully!');
+            } else {
+                alert('Please enter a valid cluster ID');
+            }
+        });
+
+        // Initialize display on page load
+        updateClusterDisplay();
     </script>
 
     <!-- Custom Script -->
