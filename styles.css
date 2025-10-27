@@ -223,8 +223,12 @@ body {
     --chat--color-primary-shade-50: #1f2937;
     --chat--color-primary-shade-100: #111827;
     --chat--color-secondary: #ffffff;
-    --chat--user-message-background: #000000;
-    --chat--user-message-color: #ffffff;
+}
+
+/* User message styling */
+.chat-message.chat-message-from-user {
+    background-color: #000000 !important;
+    color: #ffffff !important;
 }
 
 /* ===================================
